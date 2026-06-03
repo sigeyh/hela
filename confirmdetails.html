@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confirm Your Details - Hela Pesa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 50;
+    }
+
+    .loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #dc2626;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-white text-gray-800 font-sans">
+
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Page Content -->
+  <div class="p-6 max-w-md mx-auto mt-8 space-y-4 hidden" id="mainContent">
+    <div class="text-center">
+      <img src="zash-logo.jpeg" class="w-12 mx-auto mb-2" alt="Hela Pesa Logo">
+      <h1 class="text-xl font-semibold">Confirm Your Details</h1>
+      <p class="text-gray-600 text-sm">Please confirm your personal details before proceeding.</p>
+    </div>
+
+    <div class="space-y-3 text-sm">
+      <p><strong>Full Names:</strong> <span id="fullNames"></span></p>
+      <p><strong>Email Address:</strong> <span id="email"></span></p>
+      <p><strong>ID Number:</strong> <span id="idNumber"></span></p>
+      <p><strong>Date of Birth:</strong> <span id="dob"></span></p>
+      <p><strong>Gender:</strong> <span id="gender"></span></p>
+      <p><strong>County:</strong> <span id="county"></span></p>
+      <p><strong>Referee Name:</strong> <span id="referee"></span></p>
+    </div>
+
+    <button id="confirmBtn" class="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition">
+      Confirm & Proceed
+    </button>
+  </div>
+
+  <script>
+    // Simulate 3s loading
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('preloader').style.display = 'none';
+        document.getElementById('mainContent').classList.remove('hidden');
+      }, 3000);
+    });
+
+    // Populate fields from localStorage
+    document.addEventListener("DOMContentLoaded", () => {
+      const get = key => localStorage.getItem(key) || 'Not Provided';
+
+      document.getElementById('fullNames').textContent =
+        `${get('firstName')} ${get('middleName')} ${get('lastName')}`;
+      document.getElementById('email').textContent = get('email');
+      document.getElementById('idNumber').textContent = get('idNumber');
+      document.getElementById('dob').textContent = get('dob');
+      document.getElementById('gender').textContent = get('gender');
+      document.getElementById('county').textContent = get('county');
+      document.getElementById('referee').textContent = get('refereeName');
+    });
+
+    document.getElementById("confirmBtn").addEventListener("click", () => {
+      document.getElementById("confirmBtn").textContent = "Loading...";
+      document.getElementById("confirmBtn").disabled = true;
+
+      setTimeout(() => {
+        window.location.href = "checklimit.html";
+      }, 1500);
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hela Pesa - Register</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-white text-gray-800 font-sans">
+
+  <!-- Header -->
+  <div class="p-4 text-center shadow-md">
+    <img src="zashlogo.png" alt="Hela Pesa" class="w-12 mx-auto mb-2">
+    <h1 class="text-xl font-semibold">Get loan online within 6 minutes</h1>
+    <p class="text-gray-600">Fast and safe apply</p>
+  </div>
+
+  <!-- Form -->
+  <div class="p-6 max-w-md mx-auto mt-4">
+    <p class="text-center mb-4 text-sm text-gray-600">To apply for a loan, enter your phone number</p>
+    <label class="block mb-2 font-medium">Phone number</label>
+    <div class="flex mb-4">
+      <span class="bg-gray-200 border border-gray-300 rounded-l px-4 py-2">+254</span>
+      <input id="phoneNumber" type="tel" maxlength="9" placeholder="7XXXXXXXX"
+        class="w-full border border-gray-300 rounded-r px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-400" />
+    </div>
+
+    <button onclick="showConfirmPopup()"
+      class="bg-red-500 text-white w-full py-2 rounded hover:bg-red-600">Continue</button>
+
+    <p class="text-xs text-center text-gray-500 mt-4">
+      By clicking on the "Continue" button, I confirm that I have read and accept the
+      <a href="#" class="text-blue-600 underline">Terms & Conditions</a> and
+      <a href="#" class="text-blue-600 underline">Privacy Policy</a>, and that the specified phone number is mine
+      and the M-Pesa account is connected to it.
+    </p>
+  </div>
+
+  <!-- Confirmation Popup -->
+  <div id="confirmPopup" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white p-6 rounded shadow-lg text-center w-[90%] max-w-sm">
+      <h2 class="text-lg font-semibold mb-2">Is this your phone number?</h2>
+      <p id="displayPhone" class="text-xl text-gray-800 font-bold mb-4"></p>
+      <button onclick="goToSignup()" class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2 hover:bg-red-600">Yes,
+        my phone number is correct</button>
+      <button onclick="changeNumber()" class="text-red-500 underline text-sm">Change phone number</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="bg-red-100 text-gray-800 p-4 mt-10 text-sm">
+    <div class="max-w-md mx-auto">
+      <p class="mb-2"><strong>Support service:</strong> 0701-201-0001 (Mon–Sun: 8AM–6PM)</p>
+      <p class="mb-2"><strong>Email:</strong> support@helapesa.co.ke</p>
+      <p><strong>Application acceptance:</strong> 24/7</p>
+      <div class="mt-4 flex gap-4 justify-center text-lg text-red-600">
+        <i class="fab fa-facebook"></i>
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-linkedin"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <!-- JS -->
+  <script>
+    function showConfirmPopup() {
+      const phone = document.getElementById("phoneNumber").value.trim();
+      if (phone.length === 9 && phone.startsWith("7")) {
+        const fullNumber = "+254" + phone;
+        localStorage.setItem("zashPhone", fullNumber);
+        document.getElementById("displayPhone").innerText = fullNumber;
+        document.getElementById("confirmPopup").classList.remove("hidden");
+        document.getElementById("confirmPopup").classList.add("flex");
+      } else {
+        alert("Please enter a valid 9-digit Kenyan phone number starting with 7");
+      }
+    }
+
+    function goToSignup() {
+      try {
+        const phone = localStorage.getItem("zashPhone");
+        if (phone) {
+          console.log("Proceeding with phone:", phone);
+        }
+        window.location.href = "signup.html";
+      } catch (error) {
+        console.error("Error during registration:", error);
+        alert("There was an error processing your registration. Please try again.");
+      }
+    }
+
+    function changeNumber() {
+      window.location.href = "register.html";
+    }
+  </script>
+</body>
+
+</html>

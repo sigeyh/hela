@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hela Pesa - Sign Up</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-white text-gray-800 font-sans relative">
+
+  <!-- Loader Overlay -->
+  <div id="loader" class="hidden fixed inset-0 bg-white bg-opacity-90 flex flex-col justify-center items-center z-50">
+    <img src="zashlogo.png" class="w-16 mb-4" alt="Loading..." />
+    <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-red-500"></div>
+    <p class="mt-4 text-red-500 font-medium">Saving your information...</p>
+  </div>
+
+  <!-- Header -->
+  <div class="p-4 text-center shadow-md">
+    <img src="zashlogo.png" alt="Hela Pesa" class="w-12 mx-auto mb-2">
+    <h1 class="text-xl font-semibold">Personal Information</h1>
+    <p class="text-gray-600">Fill in your personal details to continue</p>
+  </div>
+
+  <!-- Form -->
+  <div class="p-6 max-w-md mx-auto mt-4 space-y-4">
+    <div>
+      <label class="block font-medium">First Name</label>
+      <input type="text" id="firstName" placeholder="Enter First Name"
+        class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400" />
+    </div>
+
+    <div>
+      <label class="block font-medium">Middle Name <span class="text-sm text-gray-400">(optional)</span></label>
+      <input type="text" id="middleName" placeholder="Enter Middle Name"
+        class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400" />
+    </div>
+
+    <div>
+      <label class="block font-medium">Last Name</label>
+      <input type="text" id="lastName" placeholder="Enter Last Name"
+        class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400" />
+    </div>
+
+    <div>
+      <label class="block font-medium" for="dob">Date of Birth</label>
+      <input type="date" id="dob" placeholder="Select Date of Birth"
+        class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400" />
+    </div>
+
+    <div>
+      <label class="block font-medium">National ID Number</label>
+      <input type="number" id="idNumber" placeholder="Enter ID Number"
+        class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400" />
+    </div>
+
+    <div>
+      <label class="block font-medium" for="email">Email</label>
+      <input list="emails" type="email" id="email" placeholder="example@gmail.com"
+        class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400" />
+      <datalist id="emails">
+        <option value="example@gmail.com">
+        <option value="you@yahoo.com">
+        <option value="user@outlook.com">
+        <option value="info@company.com">
+      </datalist>
+    </div>
+
+    <div>
+      <label class="block font-medium" for="gender">Gender</label>
+      <select id="gender"
+        class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400">
+        <option value="" disabled selected>Select Gender</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Prefer not to say</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block font-medium">Alternative Phone <span class="text-sm text-gray-400">(optional)</span></label>
+      <div class="flex">
+        <span class="bg-gray-200 border border-gray-300 rounded-l px-4 py-2">+254</span>
+        <input type="tel" id="altPhone" maxlength="9" placeholder="7XXXXXXXX"
+          class="w-full border border-gray-300 rounded-r px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-400" />
+      </div>
+    </div>
+
+    <button onclick="saveSignupInfo()" class="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600">
+      Continue
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <div class="bg-red-100 text-gray-800 p-4 mt-10 text-sm">
+    <div class="max-w-md mx-auto">
+      <p class="mb-2"><strong>Support service:</strong> 0701-201-0001 (Mon–Sun: 8AM–6PM)</p>
+      <p class="mb-2"><strong>Email:</strong> support@helapesa.co.ke</p>
+      <p><strong>Application acceptance:</strong> 24/7</p>
+      <div class="mt-4 flex gap-4 justify-center text-lg text-red-600">
+        <i class="fab fa-facebook"></i>
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-linkedin"></i>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function saveSignupInfo() {
+      document.getElementById("loader").classList.remove("hidden");
+
+      try {
+        const data = {
+          firstName: document.getElementById("firstName").value.trim(),
+          middleName: document.getElementById("middleName").value.trim(),
+          lastName: document.getElementById("lastName").value.trim(),
+          dob: document.getElementById("dob").value,
+          idNumber: document.getElementById("idNumber").value.trim(),
+          email: document.getElementById("email").value.trim(),
+          gender: document.getElementById("gender").value,
+          altPhone: document.getElementById("altPhone").value.trim(),
+          step: 'personal_info',
+          createdAt: new Date().toISOString()
+        };
+
+        // Store signup data to localStorage
+        localStorage.setItem("signupData", JSON.stringify(data));
+
+        // Go to next step
+        window.location.href = "otherdetails.html";
+      } catch (error) {
+        console.error("Error saving data:", error);
+        alert("There was an error saving your information. Please try again.");
+      }
+    }
+  </script>
+</body>
+
+</html>

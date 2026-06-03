@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Select Your Loan - Hela Pesa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-red-700 via-red-600 to-red-500 text-white font-sans min-h-screen px-4 py-6">
+
+  <!-- Logo and Title -->
+  <div class="flex items-center gap-3 mb-6">
+    <img src="zashlogo.jpeg" alt="Hela Pesa Logo" class="w-12 h-12 rounded-full">
+    <h1 class="text-2xl font-bold">Hela Pesa</h1>
+  </div>
+
+  <!-- Loan Limit Info -->
+  <div class="bg-white bg-opacity-10 p-4 rounded-xl mb-6">
+    <p>Loan limit: <span id="loanLimit" class="font-bold">-</span></p>
+    <p>Request date: <span id="reqDate">-</span></p>
+    <p>Due date: <span id="dueDate">-</span></p>
+  </div>
+
+  <!-- Loan Amount Selection -->
+  <div class="bg-white bg-opacity-10 p-6 rounded-xl mb-6">
+    <label class="block text-lg mb-2 font-semibold" for="amountSlider">Loan Amount</label>
+    <input type="range" id="amountSlider" min="0" max="10000" step="100" class="w-full mb-2"
+      aria-label="Loan Amount Slider">
+    <p class="text-lg">Selected Amount: <span id="selectedAmount" class="font-bold text-yellow-300">Ksh 0</span></p>
+    <p>Service Fee (6.2%): <span id="serviceFee">Ksh 0</span></p>
+  </div>
+
+  <!-- Details Form -->
+  <div class="bg-white bg-opacity-10 p-6 rounded-xl mb-6">
+    <label class="block mb-2">M-Pesa Phone Number</label>
+    <input type="tel" id="phone" placeholder="e.g. 0712345678" class="w-full p-2 rounded text-black mb-4" required>
+
+    <label class="block mb-2">Promo Code (Optional)</label>
+    <input type="text" id="promo" placeholder="Enter code" class="w-full p-2 rounded text-black">
+  </div>
+
+  <!-- Continue Button -->
+  <button onclick="proceed()"
+    class="w-full bg-yellow-400 text-black font-bold py-3 rounded-full hover:bg-yellow-300 shadow-lg">Continue</button>
+
+  <script>
+    // Load from localStorage
+    const data = JSON.parse(localStorage.getItem('loanLimitData')) || {};
+    const loanLimit = data.limit || 10000;
+    const requestDate = data.date || '';
+    const dueDate = data.dueDate || '';
+
+    document.getElementById('loanLimit').textContent = `Ksh ${loanLimit.toLocaleString()}`;
+    document.getElementById('reqDate').textContent = requestDate;
+    document.getElementById('dueDate').textContent = dueDate;
+
+    const slider = document.getElementById('amountSlider');
+    const selectedAmount = document.getElementById('selectedAmount');
+    const serviceFee = document.getElementById('serviceFee');
+
+    slider.max = loanLimit;
+    slider.value = loanLimit / 2;
+
+    function updateLoanInfo() {
+      const amount = parseInt(slider.value);
+      const fee = Math.round(amount * 0.062);
+
+      selectedAmount.textContent = `Ksh ${amount.toLocaleString()}`;
+      serviceFee.textContent = `Ksh ${fee.toLocaleString()}`;
+    }
+
+    // Configure slider with minimum and maximum values
+    slider.min = 1000; // Minimum loan amount
+    slider.max = loanLimit; // Maximum is the loan limit
+    slider.value = Math.min(loanLimit, 5000); // Default to 5000 or loan limit if lower
+
+    slider.addEventListener('input', updateLoanInfo);
+    updateLoanInfo(); // initial update
+
+    function proceed() {
+      const loanAmount = parseInt(slider.value);
+      const fee = Math.round(loanAmount * 0.062);
+      const phone = document.getElementById('phone').value;
+      const promo = document.getElementById('promo').value;
+
+      if (!phone || phone.length < 10) {
+        alert('Please enter a valid M-Pesa number.');
+        return;
+      }
+
+      const loanData = {
+        fullName: "John Mwangi", // Placeholder: Replace with actual user name if available
+        limit: loanLimit,
+        amount: loanAmount,
+        serviceFee: fee,
+        phone,
+        promo,
+        requestDate,
+        dueDate,
+        status: 'pending',
+        createdAt: new Date().toISOString()
+      };
+
+      try {
+        // Store loan request to localStorage
+        localStorage.setItem('loanRequest', JSON.stringify(loanData));
+        window.location.href = "verification.html";
+      } catch (error) {
+        console.error("Error saving loan application:", error);
+        alert("There was an error saving your loan request. Please try again.");
+      }
+    }
+  </script>
+
+</body>
+
+</html>
