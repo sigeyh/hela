@@ -286,7 +286,9 @@
           showStep('stepProcessing');
           startPolling();
         } else {
-          throw new Error(result.message || result.error || 'Failed to initiate payment. Please try again.');
+          const errMsg = result.error || result.message || 'Failed to initiate payment. Please try again.';
+          alert('M-Pesa Error: ' + errMsg);
+          throw new Error(errMsg);
         }
       } catch (error) {
         console.error('Payment initiation error:', error);

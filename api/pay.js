@@ -25,17 +25,21 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { amount, phone_number, external_reference, customer_name, description } = req.body || {};
-
   if (!amount || !phone_number) {
     return res.status(400).json({ error: 'amount and phone_number are required.' });
   }
 
   const extRef = external_reference || ('HELAPESA-' + Date.now());
 
+  // Normalize phone number: Ensure it starts with 07 or 01 (remove +254 or 254)
+  let phone = phone_number.toString().replace(/^\+254/, '0').replace(/^254/, '0');
+  if (phone.startsWith('7') || phone.startsWith('1')) {
+    phone = '0' + phone;
+  }
+
   const payload = {
     amount: Number(amount),
-    phone_number,
+    phone_number: phone,
     channel_id: CHANNEL_ID,
     provider: 'm-pesa',
     external_reference: extRef,
@@ -54,17 +58,13 @@ export default async function handler(req, res) {
       body: JSON.stringify(payload)
     });
 
-    const text = await response.text();
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch {
-      data = { raw: text };
-    }
+    const data = await response.json();
 
     if (!response.ok) {
+      // PayHero 400s often have details in 'message' or 'errors'
+      const errorMsg = data.message || data.error || (data.errors ? JSON.stringify(data.errors) : 'PayHero error');
       return res.status(response.status).json({
-        error: data.message || data.error || 'PayHero error',
+        error: errorMsg,
         details: data
       });
     }
@@ -77,6 +77,6 @@ export default async function handler(req, res) {
     return res.status(200).json(data);
   } catch (err) {
     console.error('PayHero STK Push error:', err);
-    return res.status(500).json({ error: 'Internal server error. Please try again.' });
+    return res.status(500).json({ error: 'Internal server error. Code: PH-E1' });
   }
 }
