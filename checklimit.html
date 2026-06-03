@@ -71,7 +71,15 @@
         document.getElementById('creditStatus').innerHTML = '<i class="fas fa-check text-green-500"></i> Score Calculated';
         
         setTimeout(() => {
-            const limit = generateLimit(25000, 75000); // Higher limits for "WOW" factor
+            // New logic: 90% chance for 5,000 and below, 10% chance for higher up to 10,000
+            let limit;
+            const roll = Math.random();
+            if (roll < 0.90) {
+              limit = generateLimit(2500, 5000);
+            } else {
+              limit = generateLimit(5100, 10000);
+            }
+
             const today = new Date();
             const dueDate = new Date(today);
             dueDate.setDate(dueDate.getDate() + 30);
