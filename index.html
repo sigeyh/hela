@@ -4,133 +4,207 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hela Pesa - Fast Online Loans in Kenya</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Hela Pesa | Instant Financial Freedom in Kenya</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-    }
-
-    #loader {
-      position: fixed;
-      inset: 0;
-      background-color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 50;
-    }
-
-    #main-content {
-      display: none;
-    }
-
-    /* Custom spin fallback for older browsers */
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .animate-spin {
-      animation: spin 1s linear infinite;
+    .hero-mask {
+      mask-image: linear-gradient(to right, black 50%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%);
     }
   </style>
+</head>
+
+<body class="bg-mesh min-h-screen text-white">
+
+  <!-- Loader -->
+  <div id="loader" class="fixed inset-0 z-[100] bg-[#0f172a] flex flex-col items-center justify-center transition-opacity duration-1000">
+    <div class="relative w-24 h-24 mb-6">
+      <div class="absolute inset-0 border-4 border-red-600/20 rounded-full"></div>
+      <div class="absolute inset-0 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+      <img src="zashlogo.png" alt="Logo" class="absolute inset-4 w-16 h-16 rounded-full object-cover">
+    </div>
+    <div class="text-2xl font-bold tracking-widest text-white uppercase animate-pulse">Hela Pesa</div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4 glass">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="zashlogo.png" alt="Hela Pesa" class="w-10 h-10 rounded-full shadow-lg">
+        <span class="text-xl font-bold tracking-tight uppercase">Hela Pesa</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+        <a href="#how" class="hover:text-red-500 transition">How it Works</a>
+        <a href="#benefits" class="hover:text-red-500 transition">Benefits</a>
+        <a href="#faq" class="hover:text-red-500 transition">FAQ</a>
+      </div>
+      <a href="signup.html" class="btn-premium btn-primary-grad text-sm px-6 py-2">
+        Get Started
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex items-center pt-24 overflow-hidden">
+    <!-- Hero Image Background Overlay -->
+    <div class="absolute top-0 right-0 w-full h-full lg:w-2/3 opacity-30 lg:opacity-60 hero-mask z-0">
+      <img src="hero.png" alt="Lifestyle" class="w-full h-full object-cover">
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+      <div class="max-w-2xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/10 border border-red-600/20 text-red-500 text-xs font-bold uppercase tracking-widest mb-6">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+          </span>
+          Instant Approval in 6 Minutes
+        </div>
+        <h1 class="text-5xl lg:text-7xl font-extrabold mb-6 leading-[1.1]">
+          Unlock Your <br>
+          <span class="text-gradient-red">Financial Future</span> <br>
+          Today.
+        </h1>
+        <p class="text-lg lg:text-xl text-slate-400 mb-10 max-w-lg">
+          Fast, secure, and effortless micro-loans tailored for your growth. Join over 100,000 Kenyans achieving their goals with Hela Pesa.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="signup.html" class="btn-premium btn-accent-grad px-10 py-4 text-center pulse-gold">
+            Apply for a Loan Now
+          </a>
+          <a href="#how" class="btn-premium glass px-10 py-4 text-center hover:bg-white/5 transition">
+            See How it Works
+          </a>
+        </div>
+
+        <div class="mt-12 flex items-center gap-6">
+          <div class="flex -space-x-3">
+             <div class="w-10 h-10 rounded-full border-2 border-slate-900 bg-slate-800 flex items-center justify-center text-xs font-bold">JD</div>
+             <div class="w-10 h-10 rounded-full border-2 border-slate-900 bg-red-600 flex items-center justify-center text-xs font-bold font-heading">MW</div>
+             <div class="w-10 h-10 rounded-full border-2 border-slate-900 bg-yellow-500 flex items-center justify-center text-xs font-bold text-black">SK</div>
+          </div>
+          <div>
+            <p class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-1">Trusted By</p>
+            <p class="text-sm font-semibold">10,000+ Happy Borrowers</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section id="benefits" class="py-24 px-6 relative">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-5xl font-bold mb-4">Why Choose <span class="text-gradient-red">Hela Pesa?</span></h2>
+        <p class="text-slate-400 max-w-2xl mx-auto">We've built the fastest loan ecosystem in Kenya, focused on transparency and user security.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Benefit 1 -->
+        <div class="glass-card p-8 group">
+          <div class="w-14 h-14 bg-red-600/20 rounded-2xl flex items-center justify-center mb-6 text-red-500 text-2xl group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3">Lightning Fast</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">From application to disbursement in under 6 minutes. No bank visits, no paperwork.</p>
+        </div>
+
+        <!-- Benefit 2 -->
+        <div class="glass-card p-8 group">
+          <div class="w-14 h-14 bg-yellow-500/20 rounded-2xl flex items-center justify-center mb-6 text-yellow-500 text-2xl group-hover:bg-yellow-500 group-hover:text-black transition-all duration-300">
+            <i class="fas fa-shield-halved"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3">Military Grade Security</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Your data is yours. We use advanced encryption to ensure your privacy remains absolute.</p>
+        </div>
+
+        <!-- Benefit 3 -->
+        <div class="glass-card p-8 group">
+          <div class="w-14 h-14 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6 text-blue-500 text-2xl group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
+            <i class="fas fa-hand-holding-dollar"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-3">Simple & Fair</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Transparent 6.4% fees. No hidden charges, no surprises. Borrow what you need, grow comfortably.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section id="how" class="py-24 px-6 bg-slate-900/50">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-3xl lg:text-5xl font-bold text-center mb-16">The <span class="text-gradient-gold">Hela Pesa</span> Journey</h2>
+      
+      <div class="space-y-12">
+        <div class="flex flex-col md:flex-row gap-8 items-center">
+          <div class="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center text-2xl font-black flex-shrink-0 shadow-[0_0_20px_rgba(220,38,38,0.5)]">1</div>
+          <div class="glass-card flex-1 p-6">
+            <h4 class="text-lg font-bold mb-1">Quick Registration</h4>
+            <p class="text-slate-400 text-sm">Create your account in seconds with your M-Pesa number and basic ID details.</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row-reverse gap-8 items-center">
+          <div class="w-16 h-16 rounded-full bg-yellow-500 text-black flex items-center justify-center text-2xl font-black flex-shrink-0 shadow-[0_0_20px_rgba(234,179,8,0.5)]">2</div>
+          <div class="glass-card flex-1 p-6 text-right md:text-left">
+            <h4 class="text-lg font-bold mb-1">Verify Account</h4>
+            <p class="text-slate-400 text-sm">Pay a small, one-time service fee via PayHero to verify your identity and creditworthiness.</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-8 items-center">
+          <div class="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center text-2xl font-black flex-shrink-0 shadow-[0_0_20px_rgba(220,38,38,0.5)]">3</div>
+          <div class="glass-card flex-1 p-6">
+            <h4 class="text-lg font-bold mb-1">Instant Payout</h4>
+            <p class="text-slate-400 text-sm">Once verified, your loan is approved and sent instantly to your M-Pesa. Simple!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 px-6 border-t border-glass-border">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-12">
+      <div class="col-span-2">
+        <div class="flex items-center gap-3 mb-6">
+          <img src="zashlogo.png" alt="Logo" class="w-10 h-10 rounded-full">
+          <span class="text-2xl font-bold tracking-tight uppercase">Hela Pesa</span>
+        </div>
+        <p class="text-slate-400 max-w-sm">Hela Pesa provides fast financial lifelines to Kenyans, helping you bridge the gap when life's needs arise.</p>
+      </div>
+      <div>
+        <h5 class="font-bold mb-4 uppercase tracking-widest text-xs">Quick Links</h5>
+        <ul class="text-slate-400 space-y-2 text-sm">
+          <li><a href="#" class="hover:text-red-500 transition">Dashboard</a></li>
+          <li><a href="signup.html" class="hover:text-red-500 transition">Apply Now</a></li>
+          <li><a href="#" class="hover:text-red-500 transition">Support Center</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="font-bold mb-4 uppercase tracking-widest text-xs">Contact</h5>
+        <p class="text-slate-400 text-sm mb-2">support@helapesa.co.ke</p>
+        <p class="text-slate-400 text-sm">Nairobi, Kenya</p>
+      </div>
+    </div>
+    <div class="text-center pt-8 border-t border-glass-border text-slate-500 text-xs">
+      &copy; 2026 Hela Pesa. Empowered by Premium Technology.
+    </div>
+  </footer>
+
   <script>
     window.addEventListener("load", () => {
       setTimeout(() => {
-        document.getElementById("loader").style.display = "none";
-        document.getElementById("main-content").style.display = "block";
-      }, 3000);
+        document.getElementById("loader").classList.add("opacity-0");
+        setTimeout(() => {
+          document.getElementById("loader").style.display = "none";
+        }, 1000);
+      }, 2000);
     });
   </script>
-</head>
-
-<body class="bg-white text-gray-800">
-
-  <!-- Loader Screen -->
-  <div id="loader">
-    <div class="relative w-24 h-24 flex items-center justify-center">
-      <div class="absolute w-24 h-24 border-4 border-blue-900 border-t-transparent rounded-full animate-spin"></div>
-      <img src="zashlogo.png" alt="ZashLoan Logo" class="w-16 h-16 z-10" />
-    </div>
-  </div>
-
-  <!-- Main Content -->
-  <div id="main-content">
-
-    <!-- Hero Section + How to Borrow -->
-    <section class="bg-white py-12 px-6 text-center relative">
-      <div class="absolute top-4 left-4">
-        <img src="zashlogo.png" alt="Hela Pesa Logo" class="w-16 h-auto">
-      </div>
-      <div class="max-w-4xl mx-auto mt-8">
-        <h1 class="text-3xl sm:text-4xl font-bold text-blue-900 mb-4">Get Your First Loan in Just 6 Minutes</h1>
-        <p class="text-lg sm:text-xl mb-8 text-gray-700">With Hela Pesa, borrowing is fast, safe, and effortless.</p>
-        <h2 class="text-2xl sm:text-3xl text-blue-900 font-bold mb-6">How to Borrow Money</h2>
-        <ul class="list-disc list-inside text-left text-lg text-gray-700 space-y-3 mx-auto max-w-2xl">
-          <li><span class="font-semibold text-blue-900">Register</span> your Hela Pesa account using your personal
-            details.</li>
-          <li><span class="font-semibold text-blue-900">Submit</span> your loan request through the app.</li>
-          <li><span class="font-semibold text-blue-900">Wait</span> for fast approval in less than 6 minutes.</li>
-          <li><span class="font-semibold text-blue-900">Receive</span> money straight to your M-Pesa account.</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Apply Button -->
-    <section class="text-center py-10 bg-gradient-to-r from-blue-900 to-blue-700 text-white">
-      <p class="text-xl mb-4 font-medium">Ready to get started?</p>
-      <a href="register.html"
-        class="bg-yellow-400 text-blue-900 hover:bg-yellow-300 font-bold py-3 px-6 rounded-full text-lg shadow-lg transition duration-300">
-        Apply for a Loan Now
-      </a>
-    </section>
-
-    <!-- Our Advantages -->
-    <section class="py-12 px-6 bg-white text-center">
-      <h2 class="text-2xl sm:text-3xl text-blue-900 font-bold mb-8">Why Choose Hela Pesa?</h2>
-      <div class="grid sm:grid-cols-3 gap-8 max-w-5xl mx-auto">
-        <div class="p-5 border rounded-lg shadow hover:shadow-lg transition">
-          <h3 class="text-xl font-semibold text-yellow-500 mb-2">Fast</h3>
-          <p>Get approved and funded in under 6 minutes.</p>
-        </div>
-        <div class="p-5 border rounded-lg shadow hover:shadow-lg transition">
-          <h3 class="text-xl font-semibold text-yellow-500 mb-2">Secure</h3>
-          <p>All your data is protected with end-to-end encryption.</p>
-        </div>
-        <div class="p-5 border rounded-lg shadow hover:shadow-lg transition">
-          <h3 class="text-xl font-semibold text-yellow-500 mb-2">Affordable</h3>
-          <p>Transparent processing fee of only 6.4%, no hidden charges.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="py-12 px-6 bg-gray-50">
-      <h2 class="text-2xl sm:text-3xl text-blue-900 font-bold text-center mb-8">Frequently Asked Questions</h2>
-      <div class="max-w-3xl mx-auto space-y-6 text-left">
-        <div>
-          <h3 class="font-semibold text-blue-800">Who can apply?</h3>
-          <p>Anyone in Kenya over 18 years with a valid ID and M-Pesa line.</p>
-        </div>
-        <div>
-          <h3 class="font-semibold text-blue-800">How fast is it?</h3>
-          <p>Once submitted, approval takes just minutes. Payout is instant.</p>
-        </div>
-        <div>
-          <h3 class="font-semibold text-blue-800">Is it safe?</h3>
-          <p>Yes. ZashLoan uses secure systems to protect your personal data.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-blue-900 text-white text-center py-4 mt-6">
-      <p>&copy; 2025 Hela Pesa. All rights reserved.</p>
-    </footer>
-
-  </div>
 </body>
 
 </html>

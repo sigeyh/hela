@@ -4,304 +4,212 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pay Service Fee - Hela Pesa</title>
+  <title>Pay Service Fee | Hela Pesa</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { animation: spin 1s linear infinite; }
+    .pulse-ring { animation: pulse-ring 1.4s ease-out infinite; }
     @keyframes pulse-ring {
       0% { transform: scale(0.8); opacity: 1; }
       100% { transform: scale(1.6); opacity: 0; }
     }
+    .fade-in { animation: fadeIn 0.5s ease forwards; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .spinner {
-      animation: spin 1s linear infinite;
-    }
-    .pulse-ring {
-      animation: pulse-ring 1.4s ease-out infinite;
-    }
-    .fade-in {
-      animation: fadeIn 0.5s ease forwards;
-    }
-    .step-card {
-      transition: all 0.3s ease;
-    }
-    /* Phone prompt pulse indicator */
-    .phone-pulse {
-      position: relative;
-    }
-    .phone-pulse::before {
-      content: '';
-      position: absolute;
-      inset: -6px;
-      border-radius: 50%;
-      background: rgba(34, 197, 94, 0.3);
-      animation: pulse-ring 1.4s ease-out infinite;
-    }
   </style>
 </head>
 
-<body class="bg-gradient-to-br from-red-700 via-red-600 to-red-500 text-white min-h-screen px-4 py-6 font-sans">
+<body class="bg-mesh min-h-screen text-white font-sans py-12 px-6">
 
-  <!-- ===== HEADER ===== -->
-  <div class="flex items-center gap-3 mb-6">
-    <img src="zashlogo.png" alt="Hela Pesa Logo" class="w-12 h-12 rounded-full shadow-lg">
-    <div>
-      <h1 class="text-xl font-bold leading-tight">Hela Pesa</h1>
-      <p class="text-xs text-red-200">Secure Payment</p>
-    </div>
-  </div>
-
-  <!-- ===== LOAN SUMMARY CARD ===== -->
-  <div class="bg-white bg-opacity-15 backdrop-blur-sm border border-white border-opacity-20 p-4 rounded-2xl mb-5 shadow">
-    <h2 class="text-sm font-semibold uppercase tracking-wider text-red-200 mb-3">Loan Summary</h2>
-    <div class="grid grid-cols-2 gap-2 text-sm">
+  <div class="max-w-xl mx-auto">
+    <!-- Header -->
+    <div class="flex items-center gap-4 mb-10">
+      <img src="zashlogo.png" alt="Logo" class="w-12 h-12 rounded-full shadow-lg border-2 border-red-600/20">
       <div>
-        <p class="text-red-200 text-xs">Loan Amount</p>
-        <p class="font-bold text-lg">Ksh <span id="amount">-</span></p>
-      </div>
-      <div>
-        <p class="text-red-200 text-xs">Service Fee</p>
-        <p class="font-bold text-lg text-yellow-300">Ksh <span id="fee">-</span></p>
-      </div>
-      <div>
-        <p class="text-red-200 text-xs">M-Pesa Number</p>
-        <p class="font-semibold" id="phone">-</p>
-      </div>
-      <div>
-        <p class="text-red-200 text-xs">Due Date</p>
-        <p class="font-semibold" id="dueDate">-</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== PAYMENT SECTION ===== -->
-  <!-- STEP 1: Initial – Prompt to Pay -->
-  <div id="stepInitial" class="step-card bg-white bg-opacity-15 backdrop-blur-sm border border-white border-opacity-20 p-5 rounded-2xl mb-5 shadow fade-in">
-    <div class="flex items-center gap-3 mb-4">
-      <div class="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-black font-bold text-lg flex-shrink-0">
-        📱
-      </div>
-      <div>
-        <h2 class="font-bold text-base">Pay Service Fee via M-Pesa</h2>
-        <p class="text-xs text-red-200">An STK push will be sent to your phone</p>
+        <h1 class="text-2xl font-black uppercase tracking-tight">Hela Pesa</h1>
+        <p class="text-xs font-bold text-red-500 uppercase tracking-widest">Secure Verification</p>
       </div>
     </div>
 
-    <div class="bg-black bg-opacity-20 rounded-xl p-4 mb-4 text-center">
-      <p class="text-xs text-red-200 mb-1">Amount to Pay</p>
-      <p class="text-4xl font-black text-yellow-300">Ksh <span id="payAmountDisplay">-</span></p>
-      <p class="text-xs text-red-200 mt-1">(One-time service fee)</p>
-    </div>
-
-    <!-- Phone number input (editable in case user wants to change) -->
-    <div class="mb-4">
-      <label class="block text-sm font-medium mb-1">M-Pesa Phone Number</label>
-      <div class="flex gap-2">
-        <span class="bg-white bg-opacity-20 px-3 rounded-xl flex items-center text-sm font-bold">+254</span>
-        <input type="tel" id="payPhone" maxlength="9" placeholder="7XXXXXXXX"
-          class="flex-1 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-xl px-3 py-2 text-white placeholder-red-200 focus:outline-none focus:ring-2 focus:ring-yellow-400" />
-      </div>
-      <p class="text-xs text-red-200 mt-1">Enter number without country code e.g. 712345678</p>
-    </div>
-
-    <button id="payBtn" onclick="initiatePayment()"
-      class="w-full bg-yellow-400 hover:bg-yellow-300 active:scale-95 text-black font-bold py-3 rounded-full shadow-lg transition-all duration-200 flex items-center justify-center gap-2">
-      <span>💳</span> Send M-Pesa Prompt
-    </button>
-  </div>
-
-  <!-- STEP 2: Processing – Waiting for STK Push -->
-  <div id="stepProcessing" class="step-card hidden bg-white bg-opacity-15 backdrop-blur-sm border border-white border-opacity-20 p-6 rounded-2xl mb-5 shadow text-center">
-    <div class="flex justify-center mb-5">
-      <div class="relative">
-        <div class="w-16 h-16 rounded-full bg-yellow-400 bg-opacity-20 pulse-ring absolute inset-0 m-auto"></div>
-        <div class="w-16 h-16 rounded-full bg-yellow-400 flex items-center justify-center text-2xl relative z-10 phone-pulse">
-          📲
+    <!-- Loan Summary Card -->
+    <div class="glass-card p-6 mb-8">
+      <div class="grid grid-cols-2 gap-6">
+        <div>
+          <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Loan Amount</p>
+          <p class="text-2xl font-black">Ksh <span id="amount">-</span></p>
+        </div>
+        <div>
+          <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Service Fee</p>
+          <p class="text-2xl font-black text-gradient-gold">Ksh <span id="fee">-</span></p>
+        </div>
+        <div>
+          <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Phone Number</p>
+          <p class="font-bold text-slate-300" id="phone">-</p>
+        </div>
+        <div>
+           <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Status</p>
+           <p class="text-xs font-bold uppercase text-yellow-500"><i class="fas fa-clock mr-1"></i> Awaiting Verification</p>
         </div>
       </div>
     </div>
-    <h2 class="text-xl font-bold mb-2">Check Your Phone!</h2>
-    <p class="text-red-100 text-sm mb-4">An M-Pesa STK push has been sent to <span id="sentToPhone" class="font-bold text-yellow-300"></span>. Enter your M-Pesa PIN to complete payment.</p>
 
-    <div class="bg-black bg-opacity-20 rounded-xl p-3 mb-4 text-sm">
-      <div class="flex items-center gap-2 mb-2">
-        <svg class="w-4 h-4 spinner text-yellow-300 flex-shrink-0" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-        </svg>
-        <p class="text-red-200">Waiting for payment confirmation...</p>
+    <!-- Payment Steps -->
+    <div id="stepInitial" class="glass-card p-8 lg:p-10 fade-in">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-12 h-12 bg-yellow-500/20 rounded-2xl flex items-center justify-center text-yellow-500 text-xl">
+          <i class="fas fa-mobile-screen-button"></i>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold">M-Pesa Verification</h3>
+          <p class="text-sm text-slate-400">Identity verification fee required for first-time loans.</p>
+        </div>
       </div>
-      <p class="text-xs text-red-300">This may take up to 30 seconds. Do not close this page.</p>
+
+      <div class="bg-white/5 rounded-3xl p-6 mb-8 text-center border border-white/10">
+        <p class="text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Payable Now</p>
+        <div class="text-5xl font-black text-gradient-gold">Ksh <span id="payAmountDisplay">-</span></div>
+      </div>
+
+      <div class="mb-8">
+        <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">M-Pesa Number</label>
+        <div class="relative">
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-bold border-r border-slate-700 pr-3">+254</span>
+          <input type="tel" id="payPhone" maxlength="9" placeholder="7XXXXXXXX" class="premium-input pl-20" />
+        </div>
+      </div>
+
+      <button id="payBtn" onclick="initiatePayment()" class="btn-premium btn-accent-grad w-full py-5 text-xl pulse-gold">
+        Send M-Pesa Prompt <i class="fas fa-paper-plane ml-3 text-sm"></i>
+      </button>
     </div>
 
-    <!-- Polling timer display -->
-    <p class="text-xs text-red-300">Auto-checking in <span id="pollCountdown" class="font-bold text-white">5</span>s</p>
-
-    <!-- Manual confirm button (for dev/test or if webhook fails) -->
-    <button onclick="checkPaymentStatus(true)"
-      class="mt-4 text-xs underline text-red-200 hover:text-white transition">
-      I've already paid — check now
-    </button>
-  </div>
-
-  <!-- STEP 3: Verifying -->
-  <div id="stepVerifying" class="step-card hidden bg-white bg-opacity-15 backdrop-blur-sm border border-white border-opacity-20 p-6 rounded-2xl mb-5 shadow text-center">
-    <div class="flex justify-center mb-4">
-      <svg class="w-12 h-12 spinner text-yellow-300" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-      </svg>
+    <!-- Processing State -->
+    <div id="stepProcessing" class="hidden glass-card p-12 text-center fade-in">
+      <div class="relative w-24 h-24 mx-auto mb-8">
+        <div class="absolute inset-0 bg-yellow-500/20 rounded-full animate-ping"></div>
+        <div class="relative w-24 h-24 bg-yellow-500 rounded-full flex items-center justify-center text-3xl text-black shadow-2xl">
+          <i class="fas fa-mobile-vibration"></i>
+        </div>
+      </div>
+      <h3 class="text-2xl font-black mb-2">Check Your Phone!</h3>
+      <p class="text-slate-400 mb-8">We've sent an M-Pesa prompt to <span id="sentToPhone" class="text-white font-bold"></span>. Enter your PIN to proceed.</p>
+      
+      <div class="flex items-center justify-center gap-4 text-sm font-bold text-red-500">
+        <i class="fas fa-spinner fa-spin"></i> Tracking Payment...
+      </div>
+      <p class="text-[10px] text-slate-600 uppercase mt-4">Auto-checking status in <span id="pollCountdown">5</span>s</p>
     </div>
-    <h2 class="text-lg font-bold mb-2">Verifying Payment...</h2>
-    <p class="text-red-200 text-sm">Please hold on while we confirm your payment with PayHero.</p>
-  </div>
 
-  <!-- STEP 4: Failed -->
-  <div id="stepFailed" class="step-card hidden bg-red-900 bg-opacity-60 border border-red-300 border-opacity-30 p-5 rounded-2xl mb-5 shadow fade-in">
-    <div class="text-center mb-4">
-      <div class="text-4xl mb-2">❌</div>
-      <h2 class="font-bold text-lg">Payment Not Confirmed</h2>
-      <p id="failReason" class="text-red-200 text-sm mt-1">We could not confirm your payment. Please try again.</p>
+    <!-- Verifying State -->
+    <div id="stepVerifying" class="hidden glass-card p-12 text-center fade-in">
+      <div class="w-20 h-20 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-8"></div>
+      <h3 class="text-xl font-bold mb-2">Confirming Receipt...</h3>
+      <p class="text-slate-400">Payment received. Finalizing your loan disbursement.</p>
     </div>
-    <button onclick="retryPayment()"
-      class="w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-3 rounded-full shadow-lg transition-all">
-      🔄 Try Again
-    </button>
-  </div>
 
-  <!-- ===== HOW IT WORKS (info) ===== -->
-  <div class="bg-white bg-opacity-10 border border-white border-opacity-15 rounded-2xl p-4 text-sm">
-    <h3 class="font-semibold mb-2 flex items-center gap-2"><span>ℹ️</span> How it Works</h3>
-    <ol class="list-decimal pl-5 space-y-1 text-red-100 text-xs">
-      <li>Tap <strong class="text-white">"Send M-Pesa Prompt"</strong> above</li>
-      <li>A pop-up will appear on your phone asking for your M-Pesa PIN</li>
-      <li>Enter your PIN and confirm the payment</li>
-      <li>We'll automatically verify and process your loan</li>
-    </ol>
+    <!-- Failed State -->
+    <div id="stepFailed" class="hidden glass-card p-8 border-red-500/30 fade-in">
+      <div class="text-center mb-8">
+        <div class="text-5xl text-red-500 mb-4"><i class="fas fa-circle-exclamation"></i></div>
+        <h3 class="text-xl font-bold mb-2">Verification Failed</h3>
+        <p id="failReason" class="text-slate-400 text-sm">Reason: Payment timed out or cancelled.</p>
+      </div>
+      <button onclick="retryPayment()" class="btn-premium glass w-full py-4 text-center hover:bg-white/5 transition">
+        <i class="fas fa-rotate-right mr-2"></i> Try Again
+      </button>
+    </div>
+
+    <!-- How it works -->
+    <div class="mt-10 px-4">
+      <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 mb-4">How it works</p>
+      <div class="grid grid-cols-3 gap-6 text-[10px] uppercase font-bold text-slate-500">
+        <div class="flex flex-col gap-2"><i class="fas fa-1 text-red-500 text-lg"></i> Send Prompt</div>
+        <div class="flex flex-col gap-2"><i class="fas fa-2 text-red-500 text-lg"></i> Enter PIN</div>
+        <div class="flex flex-col gap-2"><i class="fas fa-3 text-red-500 text-lg"></i> Instant Payout</div>
+      </div>
+    </div>
   </div>
 
   <script>
-    // ============================================================
-    // API ENDPOINTS — Vercel serverless proxy (no CORS issues)
-    // ============================================================
     const PAYHERO_CONFIG = {
-      // Vercel serverless function — initiates STK Push
       stkPushUrl: '/api/pay',
-
-      // Vercel serverless function — polls payment status
       statusUrl: '/api/payment-status'
     };
 
-    // ============================================================
-    // Load loan data from localStorage
-    // ============================================================
     const loanData = JSON.parse(localStorage.getItem('loanRequest')) || {};
     const loanAmount = loanData.amount || 0;
     const serviceFee = loanData.serviceFee || 0;
     const storedPhone = loanData.phone || '';
-    const dueDate = loanData.dueDate || '';
 
     document.getElementById('amount').textContent = loanAmount.toLocaleString();
     document.getElementById('fee').textContent = serviceFee.toLocaleString();
     document.getElementById('phone').textContent = storedPhone;
-    document.getElementById('dueDate').textContent = dueDate;
     document.getElementById('payAmountDisplay').textContent = serviceFee.toLocaleString();
 
-    // Pre-fill phone (strip leading 0 or +254)
     if (storedPhone) {
-      let stripped = storedPhone.replace(/^\+254/, '').replace(/^0/, '');
-      document.getElementById('payPhone').value = stripped;
+      document.getElementById('payPhone').value = storedPhone.replace(/^\+254/, '').replace(/^0/, '');
     }
 
-    // ============================================================
-    // State
-    // ============================================================
     let paymentReference = null;
-    let pollInterval = null;
-    let pollCountdownInterval = null;
     let pollAttempts = 0;
-    const MAX_POLL_ATTEMPTS = 12; // 12 x 5s = 60 seconds
+    const MAX_POLL_ATTEMPTS = 12;
 
-    // ============================================================
-    // Show / Hide Steps
-    // ============================================================
     function showStep(step) {
       ['stepInitial', 'stepProcessing', 'stepVerifying', 'stepFailed'].forEach(id => {
         document.getElementById(id).classList.add('hidden');
       });
-      const el = document.getElementById(step);
-      el.classList.remove('hidden');
-      el.classList.add('fade-in');
+      document.getElementById(step).classList.remove('hidden');
     }
 
-    // ============================================================
-    // Initiate PayHero STK Push
-    // ============================================================
     async function initiatePayment() {
       const rawPhone = document.getElementById('payPhone').value.trim();
       if (!rawPhone || rawPhone.length < 9) {
-        alert('Please enter a valid M-Pesa phone number (9 digits without country code).');
+        alert('Enter a valid phone number.');
         return;
       }
 
-      const fullPhone = '+254' + rawPhone;
-
-      // Disable button
-      const btn = document.getElementById('payBtn');
-      btn.disabled = true;
-      btn.innerHTML = '<svg class="w-5 h-5 spinner" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> Sending Prompt...';
+      const fullPhone = '0' + rawPhone;
+      document.getElementById('payBtn').disabled = true;
+      document.getElementById('payBtn').innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Initializing...';
 
       try {
         const extRef = 'HELAPESA-' + Date.now();
-        const payload = {
-          amount: serviceFee,
-          phone_number: fullPhone,
-          external_reference: extRef,
-          customer_name: loanData.fullName || 'Hela Pesa Customer',
-          description: `Hela Pesa Service Fee - Loan of KSH ${loanAmount}`
-        };
-
         const response = await fetch(PAYHERO_CONFIG.stkPushUrl, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: serviceFee,
+            phone_number: fullPhone,
+            external_reference: extRef,
+            customer_name: 'Hela Pesa Customer',
+            description: `Fee for Ksh ${loanAmount}`
+          })
         });
 
         const result = await response.json();
 
         if (response.ok && (result.success || result.reference || result.CheckoutRequestID)) {
-          // Save reference for polling
           paymentReference = result.reference || result.CheckoutRequestID || extRef;
           localStorage.setItem('paymentReference', paymentReference);
-          localStorage.setItem('paymentPhone', fullPhone);
-
           document.getElementById('sentToPhone').textContent = fullPhone;
           showStep('stepProcessing');
           startPolling();
         } else {
-          const errMsg = result.error || result.message || 'Failed to initiate payment. Please try again.';
+          const errMsg = result.error || result.message || 'Failed to initiate.';
           alert('M-Pesa Error: ' + errMsg);
           throw new Error(errMsg);
         }
       } catch (error) {
-        console.error('Payment initiation error:', error);
-        document.getElementById('failReason').textContent = error.message || 'Network error. Please check your connection.';
-        btn.disabled = false;
-        btn.innerHTML = '<span>💳</span> Send M-Pesa Prompt';
+        document.getElementById('failReason').textContent = error.message;
         showStep('stepFailed');
       }
     }
 
-    // ============================================================
-    // Poll payment status
-    // ============================================================
     function startPolling() {
       pollAttempts = 0;
       startPollCountdown();
@@ -310,83 +218,52 @@
     function startPollCountdown() {
       let seconds = 5;
       document.getElementById('pollCountdown').textContent = seconds;
-
-      pollCountdownInterval = setInterval(() => {
+      const interval = setInterval(() => {
         seconds--;
         document.getElementById('pollCountdown').textContent = seconds;
         if (seconds <= 0) {
-          clearInterval(pollCountdownInterval);
-          checkPaymentStatus(false);
+          clearInterval(interval);
+          checkPaymentStatus();
         }
       }, 1000);
     }
 
-    async function checkPaymentStatus(manual = false) {
-      clearInterval(pollCountdownInterval);
+    async function checkPaymentStatus() {
       pollAttempts++;
-
       showStep('stepVerifying');
 
       try {
         const ref = paymentReference || localStorage.getItem('paymentReference');
-        const statusUrl = `${PAYHERO_CONFIG.statusUrl}?reference=${encodeURIComponent(ref)}`;
-
-        const response = await fetch(statusUrl, {
-          method: 'GET'
-        });
-
+        const response = await fetch(`${PAYHERO_CONFIG.statusUrl}?reference=${encodeURIComponent(ref)}`);
         const result = await response.json();
         const status = (result.status || result.payment_status || '').toLowerCase();
 
-        if (status === 'success' || status === 'complete' || status === 'completed' || status === 'paid') {
-          // ✅ Payment confirmed!
-          localStorage.setItem('paymentConfirmed', 'true');
+        if (['success', 'complete', 'completed', 'paid'].includes(status)) {
           localStorage.setItem('paymentResult', JSON.stringify(result));
           window.location.href = 'success.html';
-
-        } else if (status === 'failed' || status === 'cancelled' || status === 'expired') {
-          // ❌ Payment definitively failed
-          document.getElementById('failReason').textContent =
-            result.message || 'Payment was ' + status + '. Please try again.';
+        } else if (['failed', 'cancelled', 'expired'].includes(status)) {
+          document.getElementById('failReason').textContent = result.message || 'Payment failed.';
           showStep('stepFailed');
-
         } else {
-          // Still pending
           if (pollAttempts < MAX_POLL_ATTEMPTS) {
             showStep('stepProcessing');
             startPollCountdown();
           } else {
-            // Timed out
-            document.getElementById('failReason').textContent =
-              'Payment confirmation timed out. If you paid, please contact support with your M-Pesa transaction code.';
+            document.getElementById('failReason').textContent = 'Verification timed out. Try again.';
             showStep('stepFailed');
           }
         }
       } catch (error) {
-        console.error('Status check error:', error);
-        if (pollAttempts < MAX_POLL_ATTEMPTS) {
-          showStep('stepProcessing');
-          startPollCountdown();
-        } else {
-          document.getElementById('failReason').textContent = 'Could not reach the server. Check your connection.';
-          showStep('stepFailed');
-        }
+        showStep('stepFailed');
       }
     }
 
-    // ============================================================
-    // Retry
-    // ============================================================
     function retryPayment() {
-      paymentReference = null;
-      pollAttempts = 0;
-      const btn = document.getElementById('payBtn');
-      btn.disabled = false;
-      btn.innerHTML = '<span>💳</span> Send M-Pesa Prompt';
+      document.getElementById('payBtn').disabled = false;
+      document.getElementById('payBtn').innerHTML = 'Send M-Pesa Prompt <i class="fas fa-paper-plane ml-3 text-sm"></i>';
       showStep('stepInitial');
     }
   </script>
-
 </body>
 
 </html>

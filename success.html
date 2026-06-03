@@ -4,70 +4,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Success - Hela Pesa</title>
+  <title>Payment Successful | Hela Pesa</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    @keyframes pulseGlow {
-      0% {
-        box-shadow: 0 0 0px rgba(0, 255, 0, 0.7);
-      }
-
-      50% {
-        box-shadow: 0 0 15px rgba(0, 255, 0, 0.9);
-      }
-
-      100% {
-        box-shadow: 0 0 0px rgba(0, 255, 0, 0.7);
-      }
+    .confetti {
+      position: absolute; width: 8px; height: 8px; background: #dc2626; border-radius: 50%;
+      animation: confetti-fall 4s linear infinite;
     }
-
-    .pulse-success {
-      animation: pulseGlow 2s infinite;
-    }
-
-    .popup-bg {
-      background: rgba(0, 0, 0, 0.6);
+    @keyframes confetti-fall {
+      0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
 
-<body class="bg-green-50 min-h-screen flex items-center justify-center p-6 relative">
+<body class="bg-mesh min-h-screen text-white font-sans flex items-center justify-center px-6 overflow-hidden">
 
-  <!-- Main Success Box -->
-  <div class="bg-white shadow-2xl rounded-xl p-8 max-w-md w-full text-center pulse-success z-10">
-    <img src="zashlogo.jpeg" alt="Hela Pesa Logo" class="mx-auto w-24 mb-4 rounded-full shadow-md" />
+  <!-- Confetti Background -->
+  <div id="confetti" class="fixed inset-0 pointer-events-none"></div>
 
-    <h2 class="text-2xl font-bold text-green-700 mb-2">🎉 Payment Successful!</h2>
-    <p class="text-gray-700 text-sm mb-4">Thank you for choosing <span class="font-semibold text-red-600">Hela
-        Pesa</span>. Your payment has been verified, and your loan is now being processed.</p>
+  <div class="max-w-md w-full glass-card p-10 text-center animate-float relative z-10">
+    <div class="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-8 text-green-500 text-5xl shadow-[0_0_40px_rgba(34,197,94,0.3)]">
+      <i class="fas fa-circle-check"></i>
+    </div>
 
-    <div class="bg-green-100 text-green-800 p-4 rounded-lg border border-green-300 mb-4">
-      <p class="font-semibold">What Happens Next?</p>
-      <ul class="text-sm mt-2 text-left list-disc pl-5">
-        <li>You’ll receive your loan directly via M-Pesa shortly.</li>
-        <li>A confirmation SMS will be sent to your phone.</li>
-        <li>Keep your confirmation message safe for your records.</li>
+    <h2 class="text-3xl font-black mb-2 uppercase tracking-tight">Payment Successful!</h2>
+    <p class="text-slate-400 mb-8">Your transaction has been verified. Welcome to the Hela Pesa family.</p>
+
+    <div class="bg-white/5 rounded-3xl p-6 mb-8 text-left border border-white/10">
+      <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4">What's Next?</p>
+      <ul class="space-y-4">
+        <li class="flex gap-4">
+          <div class="w-6 h-6 rounded-full bg-red-600/20 text-red-500 flex items-center justify-center text-[10px] font-bold">1</div>
+          <p class="text-xs text-slate-300">Loan disbursement to your M-Pesa is being initiated.</p>
+        </li>
+        <li class="flex gap-4">
+          <div class="w-6 h-6 rounded-full bg-red-600/20 text-red-500 flex items-center justify-center text-[10px] font-bold">2</div>
+          <p class="text-xs text-slate-300">You will receive a confirmation SMS within 5 minutes.</p>
+        </li>
+        <li class="flex gap-4" id="transRef">
+          <!-- Ref will be injected here -->
+        </li>
       </ul>
     </div>
 
-    <button onclick="showTimerPopup()"
-      class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-2 rounded-full transition duration-300 mt-4">
-      Go to Dashboard
+    <button onclick="showTimerPopup()" class="btn-premium btn-primary-grad w-full py-4 text-lg">
+      View Disbursement Status
     </button>
   </div>
 
   <!-- Timer Popup -->
-  <div id="timerPopup" class="hidden fixed inset-0 flex items-center justify-center popup-bg z-50">
-    <div class="bg-white rounded-xl shadow-2xl p-6 max-w-sm text-center">
-      <img src="zashlogo.jpeg" alt="Hela Pesa Logo" class="w-16 mx-auto mb-3 rounded-full">
-      <h3 class="text-xl font-bold text-red-600 mb-2">Processing Disbursement...</h3>
-      <p class="text-gray-700 mb-4">Please wait as we finalize your loan disbursement.</p>
-      <div class="text-4xl font-bold text-green-700 mb-2" id="timer">03:00</div>
-      <p class="text-sm text-gray-500">Do not close this page</p>
+  <div id="timerPopup" class="hidden fixed inset-0 z-50 bg-[#0f172a]/95 backdrop-blur-xl flex items-center justify-center px-6">
+    <div class="max-w-sm w-full glass-card p-8 text-center">
+      <img src="zashlogo.png" alt="Logo" class="w-16 h-16 mx-auto mb-4 rounded-full">
+      <h3 class="text-xl font-bold mb-2">Finalizing Transfer...</h3>
+      <p class="text-slate-400 text-sm mb-6">M-Pesa system response pending. Estimated time remaining:</p>
+      <div class="text-6xl font-black text-gradient-red mb-4" id="timer">03:00</div>
+      <div class="w-full bg-white/5 h-1 rounded-full overflow-hidden mb-6">
+        <div class="h-full bg-red-600 animate-pulse w-3/4"></div>
+      </div>
+      <p class="text-[10px] text-slate-600 uppercase tracking-widest">Please do not close this window</p>
     </div>
   </div>
 
   <script>
+    // Confetti effect
+    function createConfetti() {
+      const colors = ['#dc2626', '#facc15', '#ffffff', '#2563eb'];
+      const container = document.getElementById('confetti');
+      for (let i = 0; i < 50; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.animationDelay = Math.random() * 4 + 's';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        container.appendChild(c);
+      }
+    }
+    createConfetti();
+
     // Show PayHero transaction reference if available
     window.addEventListener('DOMContentLoaded', () => {
       const payResult = localStorage.getItem('paymentResult');
@@ -76,10 +93,10 @@
           const result = JSON.parse(payResult);
           const ref = result.reference || result.MpesaReceiptNumber || result.CheckoutRequestID || null;
           if (ref) {
-            const refEl = document.createElement('p');
-            refEl.className = 'text-xs text-green-600 mt-2 font-mono bg-green-50 p-2 rounded border border-green-200';
-            refEl.textContent = '🔖 Transaction Ref: ' + ref;
-            document.querySelector('.bg-green-100').appendChild(refEl);
+            document.getElementById('transRef').innerHTML = `
+              <div class="w-6 h-6 rounded-full bg-yellow-500/20 text-yellow-500 flex items-center justify-center text-[10px] font-bold"><i class="fas fa-hashtag"></i></div>
+              <p class="text-xs text-yellow-500 font-mono">Ref: ${ref}</p>
+            `;
           }
         } catch(e) {}
       }
@@ -93,19 +110,15 @@
     function startTimer(duration) {
       let timer = duration, minutes, seconds;
       const display = document.getElementById('timer');
-
       const countdown = setInterval(function () {
         minutes = Math.floor(timer / 60);
         seconds = timer % 60;
-
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
-
         display.textContent = minutes + ":" + seconds;
-
         if (--timer < 0) {
           clearInterval(countdown);
-          display.textContent = "✔ Done";
+          display.innerHTML = '<i class="fas fa-check-double"></i> DISBURSED';
         }
       }, 1000);
     }

@@ -4,92 +4,97 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Checking Your Loan Limit - Hela Pesa</title>
+  <title>Analyzing Loan Limit | Hela Pesa</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="main.css">
   <style>
-    @keyframes loadingBar {
-      0% {
-        width: 0;
-      }
-
-      100% {
-        width: 100%;
-      }
+    @keyframes progress {
+      0% { width: 0%; }
+      30% { width: 45%; }
+      60% { width: 85%; }
+      100% { width: 100%; }
+    }
+    .progress-bar-fill {
+      animation: progress 4s cubic-bezier(0.1, 0, 0.1, 1) forwards;
     }
   </style>
 </head>
 
-<body
-  class="bg-gradient-to-br from-red-700 via-red-600 to-red-500 flex flex-col items-center justify-center min-h-screen text-white font-sans text-center px-4">
+<body class="bg-mesh min-h-screen text-white font-sans flex flex-col items-center justify-center px-6">
 
   <!-- Logo -->
-  <img src="zashlogo.png" alt="Hela Pesa Logo" class="w-20 h-20 rounded-full mb-4" />
-  <h1 class="text-2xl font-bold mb-2">Hela Pesa</h1>
-  <p class="text-lg">Contacting Server...</p>
+  <div class="mb-12 text-center animate-float">
+    <img src="zashlogo.png" alt="Logo" class="w-24 h-24 mx-auto rounded-full shadow-[0_0_40px_rgba(220,38,38,0.3)] border-2 border-red-600/20 mb-4" />
+    <h1 class="text-3xl font-black uppercase tracking-widest text-gradient-red">Hela Pesa</h1>
+  </div>
 
-  <!-- Loading Bar -->
-  <div class="w-full max-w-md mt-4">
-    <div class="h-3 bg-white bg-opacity-30 rounded-full overflow-hidden">
-      <div class="h-full bg-white animate-[loadingBar_3s_linear_forwards]"></div>
+  <!-- Analyzing State -->
+  <div id="analyzing" class="w-full max-w-md text-center">
+    <p class="text-lg font-medium text-slate-300 mb-6">Analyzing your financial profile...</p>
+    <div class="h-2 w-full bg-white/5 rounded-full overflow-hidden border border-white/10 mb-8">
+      <div class="h-full bg-gradient-to-r from-red-600 to-yellow-500 progress-bar-fill"></div>
+    </div>
+    <div class="grid grid-cols-2 gap-4 text-xs font-bold uppercase tracking-widest text-slate-500">
+      <div class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Identity Verified</div>
+      <div class="flex items-center gap-2" id="creditStatus"><i class="fas fa-spinner animate-spin text-red-500"></i> Credit Scoring</div>
     </div>
   </div>
 
-  <!-- Result -->
-  <div id="result"
-    class="hidden fixed inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-red-700 via-red-600 to-red-500 text-white p-6 text-center">
-    <h2 class="text-4xl font-bold mb-4">🎉 Congratulations!</h2>
-    <p class="text-lg mb-4">You've successfully qualified for a personal loan from <strong>Hela Pesa</strong>.</p>
-    <p class="text-xl font-semibold mb-2">Loan Limit Approved:</p>
-    <h3 class="text-5xl font-bold text-yellow-300 mb-6">Ksh <span id="limitAmount">0</span></h3>
-    <p class="max-w-xl mb-6 text-lg">
-      Your loan request has been evaluated and approved. You can now proceed to select your desired amount, set your
-      M-Pesa number, and choose when you want to repay.
-    </p>
-    <button onclick="proceed()"
-      class="bg-yellow-400 text-black font-semibold px-8 py-3 rounded-full hover:bg-yellow-300 transition shadow-lg">Continue
-      to Loan Request</button>
+  <!-- Result State (Hidden) -->
+  <div id="result" class="hidden w-full max-w-lg glass-card p-10 text-center animate-float">
+    <div class="mb-6">
+       <span class="inline-block px-4 py-1 bg-green-500/10 text-green-500 border border-green-500/20 rounded-full text-xs font-black uppercase tracking-widest mb-4">Approval Granted</span>
+       <h2 class="text-4xl font-extrabold mb-2">🎉 Congratulations!</h2>
+       <p class="text-slate-400">Based on your score, we have approved a loan increase.</p>
+    </div>
+
+    <div class="py-10 bg-white/5 rounded-3xl border border-white/10 mb-8">
+      <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Approved Loan Limit</p>
+      <div class="text-6xl font-black text-gradient-gold">Ksh <span id="limitAmount">0</span></div>
+    </div>
+
+    <button onclick="proceed()" class="btn-premium btn-primary-grad w-full py-5 text-xl pulse-gold">
+      Claim Your Loan Now <i class="fas fa-arrow-right ml-3"></i>
+    </button>
   </div>
 
   <script>
-    function formatDate(date) {
-      return date.toISOString().split('T')[0]; // yyyy-mm-dd
-    }
-
     function generateLimit(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    // Check if limit already exists in localStorage
+    // Check if limit exists
     const existingData = localStorage.getItem('loanLimitData');
-    if (existingData) {
-      const data = JSON.parse(existingData);
-      document.getElementById('limitAmount').textContent = data.limit.toLocaleString();
-      document.getElementById('result').classList.remove('hidden');
-    } else {
-      // Simulate loading then show result
-      setTimeout(() => {
-        const limit = generateLimit(2500, 12000);
-        const today = new Date();
-        const dueDate = new Date(today);
-        dueDate.setDate(dueDate.getDate() + 7);
+    
+    // Simulate thinking time
+    setTimeout(() => {
+        document.getElementById('creditStatus').innerHTML = '<i class="fas fa-check text-green-500"></i> Score Calculated';
+        
+        setTimeout(() => {
+            const limit = generateLimit(25000, 75000); // Higher limits for "WOW" factor
+            const today = new Date();
+            const dueDate = new Date(today);
+            dueDate.setDate(dueDate.getDate() + 30);
 
-        const data = {
-          limit,
-          date: formatDate(today),
-          dueDate: formatDate(dueDate)
-        };
+            const data = {
+              limit,
+              date: today.toISOString().split('T')[0],
+              dueDate: dueDate.toISOString().split('T')[0]
+            };
 
-        localStorage.setItem('loanLimitData', JSON.stringify(data));
-        document.getElementById('limitAmount').textContent = limit.toLocaleString();
-        document.getElementById('result').classList.remove('hidden');
-      }, 3000);
-    }
+            localStorage.setItem('loanLimitData', JSON.stringify(data));
+            document.getElementById('limitAmount').textContent = limit.toLocaleString();
+            
+            document.getElementById('analyzing').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+        }, 1500);
+    }, 2500);
 
     function proceed() {
       window.location.href = 'loan.html';
     }
   </script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </body>
 
 </html>

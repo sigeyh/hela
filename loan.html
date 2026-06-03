@@ -4,116 +4,152 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Select Your Loan - Hela Pesa</title>
+  <title>Configure Your Loan | Hela Pesa</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      height: 8px;
+      border-radius: 10px;
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 24px;
+      width: 24px;
+      border-radius: 50%;
+      background: #dc2626;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(220,38,38,0.5);
+      border: 3px solid white;
+    }
+  </style>
 </head>
 
-<body class="bg-gradient-to-br from-red-700 via-red-600 to-red-500 text-white font-sans min-h-screen px-4 py-6">
+<body class="bg-mesh min-h-screen text-white font-sans py-12 px-6">
 
-  <!-- Logo and Title -->
-  <div class="flex items-center gap-3 mb-6">
-    <img src="zashlogo.jpeg" alt="Hela Pesa Logo" class="w-12 h-12 rounded-full">
-    <h1 class="text-2xl font-bold">Hela Pesa</h1>
+  <div class="max-w-xl mx-auto">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-10">
+      <div class="flex items-center gap-4">
+        <img src="zashlogo.png" alt="Logo" class="w-12 h-12 rounded-full shadow-lg">
+        <h1 class="text-2xl font-black uppercase tracking-tight">Hela Pesa</h1>
+      </div>
+      <div class="glass px-4 py-2 rounded-full text-xs font-bold text-red-500 border border-red-500/20">
+        <i class="fas fa-shield-check mr-2"></i> Verified Account
+      </div>
+    </div>
+
+    <!-- Loan Config Card -->
+    <div class="glass-card overflow-hidden">
+      <!-- Top Banner -->
+      <div class="bg-gradient-to-r from-red-600 to-red-800 p-6 flex items-center justify-between">
+        <div>
+          <p class="text-xs uppercase font-black tracking-widest text-red-200 opacity-80 mb-1">Max Credit Limit</p>
+          <h2 class="text-3xl font-black" id="loanLimitDisp">Ksh 0</h2>
+        </div>
+        <div class="text-right">
+          <p class="text-xs uppercase font-black tracking-widest text-red-200 opacity-80 mb-1">Repayment Date</p>
+          <p class="font-bold" id="dueDateDisp">-</p>
+        </div>
+      </div>
+
+      <div class="p-8 lg:p-10 space-y-10">
+        <!-- Slider Section -->
+        <div>
+          <div class="flex justify-between items-end mb-4">
+            <label class="text-sm font-bold uppercase tracking-widest text-slate-500">Pick Your Amount</label>
+            <div class="text-4xl font-black text-gradient-gold" id="selectedAmountDisplay">Ksh 0</div>
+          </div>
+          <input type="range" id="amountSlider" min="1000" max="10000" step="100" class="w-full">
+          <div class="flex justify-between text-[10px] font-bold text-slate-600 mt-2 uppercase tracking-tighter">
+            <span>Min: Ksh 1,000</span>
+            <span>Max: <span id="maxLabel">Ksh 10,000</span></span>
+          </div>
+        </div>
+
+        <!-- Breakdown -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+            <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Service Fee (6.2%)</p>
+            <p class="text-xl font-bold" id="serviceFeeDisp">Ksh 0</p>
+          </div>
+          <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+            <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">To Receive</p>
+            <p class="text-xl font-bold" id="receiveDisp">Ksh 0</p>
+          </div>
+        </div>
+
+        <!-- Details -->
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">M-Pesa Number for Disbursement</label>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-bold border-r border-slate-700 pr-3">+254</span>
+              <input type="tel" id="phone" maxlength="9" placeholder="7XXXXXXXX" class="premium-input pl-20" />
+            </div>
+            <p class="text-[10px] text-slate-500 mt-2">Funded instantly via M-Pesa to this number.</p>
+          </div>
+        </div>
+
+        <button onclick="proceed()" class="btn-premium btn-primary-grad w-full py-5 text-xl">
+          Continue to Verification <i class="fas fa-lock-keyhole ml-3 text-sm"></i>
+        </button>
+      </div>
+    </div>
   </div>
-
-  <!-- Loan Limit Info -->
-  <div class="bg-white bg-opacity-10 p-4 rounded-xl mb-6">
-    <p>Loan limit: <span id="loanLimit" class="font-bold">-</span></p>
-    <p>Request date: <span id="reqDate">-</span></p>
-    <p>Due date: <span id="dueDate">-</span></p>
-  </div>
-
-  <!-- Loan Amount Selection -->
-  <div class="bg-white bg-opacity-10 p-6 rounded-xl mb-6">
-    <label class="block text-lg mb-2 font-semibold" for="amountSlider">Loan Amount</label>
-    <input type="range" id="amountSlider" min="0" max="10000" step="100" class="w-full mb-2"
-      aria-label="Loan Amount Slider">
-    <p class="text-lg">Selected Amount: <span id="selectedAmount" class="font-bold text-yellow-300">Ksh 0</span></p>
-    <p>Service Fee (6.2%): <span id="serviceFee">Ksh 0</span></p>
-  </div>
-
-  <!-- Details Form -->
-  <div class="bg-white bg-opacity-10 p-6 rounded-xl mb-6">
-    <label class="block mb-2">M-Pesa Phone Number</label>
-    <input type="tel" id="phone" placeholder="e.g. 0712345678" class="w-full p-2 rounded text-black mb-4" required>
-
-    <label class="block mb-2">Promo Code (Optional)</label>
-    <input type="text" id="promo" placeholder="Enter code" class="w-full p-2 rounded text-black">
-  </div>
-
-  <!-- Continue Button -->
-  <button onclick="proceed()"
-    class="w-full bg-yellow-400 text-black font-bold py-3 rounded-full hover:bg-yellow-300 shadow-lg">Continue</button>
 
   <script>
-    // Load from localStorage
-    const data = JSON.parse(localStorage.getItem('loanLimitData')) || {};
-    const loanLimit = data.limit || 10000;
-    const requestDate = data.date || '';
-    const dueDate = data.dueDate || '';
-
-    document.getElementById('loanLimit').textContent = `Ksh ${loanLimit.toLocaleString()}`;
-    document.getElementById('reqDate').textContent = requestDate;
-    document.getElementById('dueDate').textContent = dueDate;
+    const data = JSON.parse(localStorage.getItem('loanLimitData')) || { limit: 10000, dueDate: '2026-07-03' };
+    const loanLimit = data.limit;
+    
+    document.getElementById('loanLimitDisp').textContent = `Ksh ${loanLimit.toLocaleString()}`;
+    document.getElementById('maxLabel').textContent = `Ksh ${loanLimit.toLocaleString()}`;
+    document.getElementById('dueDateDisp').textContent = data.dueDate;
 
     const slider = document.getElementById('amountSlider');
-    const selectedAmount = document.getElementById('selectedAmount');
-    const serviceFee = document.getElementById('serviceFee');
+    const selectedAmount = document.getElementById('selectedAmountDisplay');
+    const serviceFee = document.getElementById('serviceFeeDisp');
+    const receive = document.getElementById('receiveDisp');
 
     slider.max = loanLimit;
-    slider.value = loanLimit / 2;
+    slider.value = Math.min(loanLimit, 15000);
 
     function updateLoanInfo() {
       const amount = parseInt(slider.value);
       const fee = Math.round(amount * 0.062);
-
+      
       selectedAmount.textContent = `Ksh ${amount.toLocaleString()}`;
       serviceFee.textContent = `Ksh ${fee.toLocaleString()}`;
+      receive.textContent = `Ksh ${(amount - fee).toLocaleString()}`;
     }
 
-    // Configure slider with minimum and maximum values
-    slider.min = 1000; // Minimum loan amount
-    slider.max = loanLimit; // Maximum is the loan limit
-    slider.value = Math.min(loanLimit, 5000); // Default to 5000 or loan limit if lower
-
     slider.addEventListener('input', updateLoanInfo);
-    updateLoanInfo(); // initial update
+    updateLoanInfo();
 
     function proceed() {
-      const loanAmount = parseInt(slider.value);
-      const fee = Math.round(loanAmount * 0.062);
       const phone = document.getElementById('phone').value;
-      const promo = document.getElementById('promo').value;
-
-      if (!phone || phone.length < 10) {
+      if (!phone || phone.length < 9) {
         alert('Please enter a valid M-Pesa number.');
         return;
       }
 
       const loanData = {
-        fullName: "John Mwangi", // Placeholder: Replace with actual user name if available
-        limit: loanLimit,
-        amount: loanAmount,
-        serviceFee: fee,
-        phone,
-        promo,
-        requestDate,
-        dueDate,
-        status: 'pending',
-        createdAt: new Date().toISOString()
+        amount: parseInt(slider.value),
+        serviceFee: Math.round(parseInt(slider.value) * 0.062),
+        phone: '0' + phone,
+        dueDate: data.dueDate,
+        status: 'pending'
       };
 
-      try {
-        // Store loan request to localStorage
-        localStorage.setItem('loanRequest', JSON.stringify(loanData));
-        window.location.href = "verification.html";
-      } catch (error) {
-        console.error("Error saving loan application:", error);
-        alert("There was an error saving your loan request. Please try again.");
-      }
+      localStorage.setItem('loanRequest', JSON.stringify(loanData));
+      window.location.href = "verification.html";
     }
   </script>
-
 </body>
 
 </html>
